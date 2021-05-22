@@ -37,18 +37,18 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        <Switch>
-          <ToastProvider placement="bottom-right">
+      <ToastProvider placement="bottom-right">
+        <Router>
+          <Switch>
             <Route path={`/pollRoom/:pollId`}>
               <PollScene />
             </Route>
             <Route path="/">
               <HomeScene />
             </Route>
-          </ToastProvider>
-        </Switch>
-      </Router>
+          </Switch>
+        </Router>
+      </ToastProvider>
     </div>
   );
 }
