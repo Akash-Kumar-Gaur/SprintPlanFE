@@ -8,11 +8,13 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router";
 import axios from "axios";
+import { useToasts } from "react-toast-notifications";
 
 function CreatePollForm({ close }) {
   const [roomName, setRoomName] = useState("");
   const [series, setSeries] = useState([]);
   const [allCanSee, setAllCanSee] = useState(false);
+  const [creatingPoll, setCreatingPoll] = useState(false);
 
   const handleSeriesSelect = (event) => {
     setSeries(event.target.value);
@@ -28,6 +30,7 @@ function CreatePollForm({ close }) {
   ];
 
   let history = useHistory();
+  const { addToast } = useToasts();
 
   const createPoll = () => {
     // axios.get("/poll/2cedb783-9ec5-4070-90be-e82005987c62").then((res) => {
@@ -42,12 +45,25 @@ function CreatePollForm({ close }) {
       method: "post",
       url: "https://plansprint.herokuapp.com/polls",
       data: { roomName, series: createSeries, allCanSee },
-    }).then((res) => {
-      const response = res.data;
-      history.push(`/pollRoom/${response.roomId}`);
-    });
+    })
+      .then((res) => {
+        const response = res.data;
+        history.push(`/pollRoom/${response.roomId}`);
+        setCreatingPoll(false);
+        addToast("Poll created!!", {
+          autoDismiss: 2000,
+          autoDismissTimeout: 2000,
+          appearance: "success",
+        });
+        close();
+      })
+      .catch((err) => {
+        console.log("createError", err);
+        alert("Something went wrong!!!");
+        setCreatingPoll(false);
+        // close();
+      });
     //
-    close();
   };
 
   return (
@@ -106,10 +122,13 @@ function CreatePollForm({ close }) {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => createPoll()}
-              disabled={!roomName.length || !series}
+              onClick={() => {
+                setCreatingPoll(true);
+                createPoll();
+              }}
+              disabled={!roomName.length || !series || creatingPoll}
             >
-              Start Game
+              {creatingPoll ? "Creating poll" : "Start Game"}
             </Button>
           </div>
         </div>
