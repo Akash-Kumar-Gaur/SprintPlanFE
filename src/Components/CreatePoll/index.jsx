@@ -40,7 +40,7 @@ function CreatePollForm({ close }) {
     const createSeries = series.split(",");
     axios({
       method: "post",
-      url: "/polls",
+      url: "https://plansprint.herokuapp.com/polls",
       data: { roomName, series: createSeries, allCanSee },
     }).then((res) => {
       const response = res.data;

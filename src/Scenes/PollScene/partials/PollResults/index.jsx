@@ -29,7 +29,7 @@ function PollResults({ setIsInvalidRoom }) {
 
   function fetchCurrentPollData() {
     axios
-      .get(`/poll/${pollId}`)
+      .get(`https://plansprint.herokuapp.com/poll/${pollId}`)
       .then((res) => {
         const response = res.data;
         setPollData(response);
