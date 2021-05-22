@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto+Condensed&display=swap");
+.homeWrapper {
+  background-color: #fff;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.homeBanner {
+  background: #0693e3ff;
+  // height: 350px;
+  height: 40vh;
+}
+
+.centerContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  position: absolute;
+  width: 100%;
+  top: 10vh;
+  margin: 0 auto;
+
+  .dataWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 80%;
+  }
+}
+
+.lightText {
+  font-size: 4rem;
+  text-transform: uppercase;
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 3px;
+  color: #ffffff40;
+}
+
+.infoText {
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 2px;
+  position: absolute;
+  top: 3rem;
+  left: 10%;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.textWrapper {
+  position: relative;
+  text-align: left;
+  max-width: 350px;
+}
+
+.tagline {
+  color: #fff;
+  margin-top: 3rem;
+  font-size: 1.2rem;
+}
+
+.playBtn {
+  margin-top: 4rem;
+  background: #fff;
+  width: 150px;
+  padding: 10px;
+  color: #343996;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.footerInfo {
+  position: absolute;
+  margin: 0 auto;
+  width: 100%;
+  bottom: 10px;
+}
+
+@media only screen and (max-width: 900px) {
+  .dataWrapper {
+    flex-direction: column;
+  }
+  .animationFile {
+    margin-top: 50px;
+  }
+  .tagline {
+    width: 280px;
+  }
+}
+
+@keyframes anvil {
+  0% {
+    transform: scale(1) translateY(0px);
+    opacity: 0;
+    box-shadow: 0 0 0 rgba(241, 241, 241, 0);
+  }
+  1% {
+    transform: scale(0.96) translateY(10px);
+    opacity: 0;
+    box-shadow: 0 0 0 rgba(241, 241, 241, 0);
+  }
+  100% {
+    transform: scale(1) translateY(0px);
+    opacity: 1;
+    box-shadow: 0 0 500px rgba(241, 241, 241, 0);
+  }
+}
+.popup-content {
+  -webkit-animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
+  animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
+}
