@@ -16,12 +16,12 @@ function NameInput({ close, isInvalidRoom }) {
       .get()
       .then((snapshot) => {
         if (snapshot.exists()) {
-          console.log(snapshot.val());
           const users = snapshot.val();
           for (let id in users) {
             if (users[id].name === name) {
               alert("User with same name already in room!!");
               setName("");
+              break;
             } else {
               window.localStorage.setItem("loggedUser", name);
               enterUser(name, pollId);

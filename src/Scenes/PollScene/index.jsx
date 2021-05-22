@@ -95,10 +95,7 @@ function PollScene() {
         {(close) => <NameInput close={close} isInvalidRoom={isInvalidRoom} />}
       </Popup>
       <div className={styles.pollResults}>
-        <PollResults
-          loggedUsers={loggedUsers}
-          setIsInvalidRoom={() => setIsInvalidRoom(true)}
-        />
+        <PollResults setIsInvalidRoom={() => setIsInvalidRoom(true)} />
       </div>
       <div className={styles.usersWrapper}>
         {loggedUsers && loggedUsers.length ? (

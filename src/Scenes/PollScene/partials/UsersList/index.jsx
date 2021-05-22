@@ -1,11 +1,13 @@
 import React from "react";
 import styles from "../../index.module.scss";
 import votedImg from "../../../../Assets/Images/voted.png";
+import { getUniqueListBy } from "../../../../utils/database.utils";
 
 function UsersList({ users }) {
+  const filterUsers = getUniqueListBy(users, "name");
   return (
     <>
-      {users.map((user, key) => {
+      {filterUsers.map((user, key) => {
         return (
           <div className={styles.cardWrapper} key={key}>
             <div className={styles.userCard}>
