@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import roomImg from "../../../../Assets/Images/room.png";
 import userImg from "../../../../Assets/Images/user.png";
 import styles from "../../index.module.scss";
@@ -23,11 +23,7 @@ function PollResults({ setIsInvalidRoom }) {
 
   let history = useHistory();
 
-  useEffect(() => {
-    fetchCurrentPollData();
-  }, []);
-
-  function fetchCurrentPollData() {
+  const fetchCurrentPollData = useCallback(() => {
     axios
       .get(`https://plansprint.herokuapp.com/poll/${pollId}`)
       .then((res) => {
@@ -37,7 +33,11 @@ function PollResults({ setIsInvalidRoom }) {
       .catch((err) => {
         history.replace("/");
       });
-  }
+  }, [history, pollId]);
+
+  useEffect(() => {
+    fetchCurrentPollData();
+  }, [fetchCurrentPollData]);
 
   if (!pollData) {
     setIsInvalidRoom();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import NameInput from "./partials/NameInput";
@@ -15,11 +15,7 @@ function PollScene() {
 
   let history = useHistory();
 
-  useEffect(() => {
-    getLoggedUsers();
-  }, []);
-
-  const getLoggedUsers = () => {
+  const getLoggedUsers = useCallback(() => {
     const userRef = firebase.database().ref(pollId);
     userRef.on("value", (snapshot) => {
       const users = snapshot.val();
@@ -39,7 +35,11 @@ function PollScene() {
           .remove(window.localStorage.removeItem("loggedUser"));
       }
     });
-  };
+  }, [pollId]);
+
+  useEffect(() => {
+    getLoggedUsers();
+  }, [getLoggedUsers]);
 
   return (
     <div className={styles.pollScene}>
