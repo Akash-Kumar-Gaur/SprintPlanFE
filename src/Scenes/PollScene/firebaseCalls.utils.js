@@ -39,6 +39,27 @@ export const setPollStatus = (pollId) => {
 //   });
 // };
 
+export function usersCount(pollId) {
+  //   var ref = firebase.database().ref(pollId + "/users");
+  //   ref.once("value").then(function (snapshot) {
+  //     return snapshot.numChildren();
+  //   });
+  const dbRef = firebase.database().ref(pollId + "/users");
+  dbRef
+    .get()
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(snapshot.numChildren());
+        return snapshot;
+      } else {
+        console.log("No data available");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 function setNotVoted(pollId, id) {
   const userRef = firebase
     .database()

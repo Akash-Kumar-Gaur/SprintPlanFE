@@ -16,6 +16,7 @@ function PollScene() {
   const [isInvalidRoom, setIsInvalidRoom] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [allowShow, setAllowShow] = useState(false);
+  const [resultsData, setResultsData] = useState({});
 
   let history = useHistory();
 
@@ -61,7 +62,6 @@ function PollScene() {
     const pollRef = firebase.database().ref(pollId + "/resultsShown");
     pollRef.on("value", (snapshot) => {
       const resultStatus = snapshot.val();
-      console.log("resultStatus", resultStatus);
       if (resultStatus) {
         setShowResults(resultStatus.resultsShown || false);
       }
@@ -74,10 +74,39 @@ function PollScene() {
     checkResultsStatus();
   }, [checkResultsStatus, getLoggedUsers, getPollingStaus]);
 
+  const getResults = () => {
+    const userRef = firebase.database().ref(pollId + "/users");
+    userRef
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log("yhnb ", snapshot.val());
+          const users = snapshot.val();
+          const data = {};
+          for (let id in users) {
+            const voteValue = users[id].voteValue;
+            //count votes
+            if (data[voteValue]) {
+              data[voteValue].push(users[id].name);
+            } else {
+              data[voteValue] = [users[id].name];
+            }
+            console.log("results", data);
+            setResultsData(data);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const onShowResults = () => {
     setShowResults(true);
     const pollRef = firebase.database().ref(pollId + "/resultsShown");
-    pollRef.set({ resultsShown: true });
+    pollRef.set({ resultsShown: true }).then(() => {
+      getResults();
+    });
   };
 
   const onPollRestart = () => {
@@ -91,41 +120,6 @@ function PollScene() {
 
   return (
     <div className={styles.pollScene}>
-      <div className={styles.headerRow}>
-        <Button
-          variant="contained"
-          size="small"
-          onClick={() => {
-            if (window.confirm("Start new game?")) {
-              history.replace("/");
-              const loggedId = window.localStorage.getItem("loggedId");
-              if (loggedId) {
-                const currentRef = firebase
-                  .database()
-                  .ref(pollId + "/users")
-                  .child(loggedId);
-                currentRef.remove(window.localStorage.removeItem("loggedUser"));
-              }
-            }
-          }}
-        >
-          New Game
-        </Button>
-        <Button
-          size="small"
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            window.opener = null;
-            window.open("about:blank", "_self");
-            setTimeout(() => {
-              window.close();
-            }, 1000);
-          }}
-        >
-          Leave
-        </Button>
-      </div>
       <Popup
         modals
         defaultOpen={!window.localStorage.getItem("loggedUser")}
@@ -145,7 +139,7 @@ function PollScene() {
         <div className={styles.brandName}>SprintPlan</div>
         <PollResults
           setIsInvalidRoom={() => setIsInvalidRoom(true)}
-          showResults={showResults}
+          resultsData={resultsData}
         />
       </div>
       <div className={styles.usersWrapper}>

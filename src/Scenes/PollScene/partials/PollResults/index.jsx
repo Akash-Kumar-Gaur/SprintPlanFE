@@ -5,17 +5,25 @@ import { useParams } from "react-router";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { setPollStatus } from "../../firebaseCalls.utils";
-import { Line } from "rc-progress";
+import {
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import Button from "@material-ui/core/Button";
+import HomeImg from "../../../../Assets/Images/home.png";
 
 const setBg = () => {
   const randomColor = Math.floor(Math.random() * 16777215).toString(16);
   return `#${randomColor}`;
 };
 
-function PollResults({ setIsInvalidRoom }) {
+function PollResults({ setIsInvalidRoom, resultsData }) {
   const [pollData, setPollData] = useState({});
   const [selectedPoll, setSelectedPoll] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [resData, setResData] = useState(resultsData);
+  const [loggedCount, setLoggedCount] = useState(1);
   const { pollId } = useParams();
 
   function setHasVoted(pollValue) {
@@ -49,24 +57,59 @@ function PollResults({ setIsInvalidRoom }) {
       });
   }, [history, pollId]);
 
+  const getResults = useCallback(() => {
+    const userRef = firebase.database().ref(pollId + "/users");
+    userRef
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log("yhnb ", snapshot.val());
+          const users = snapshot.val();
+          const data = {};
+          for (let id in users) {
+            const voteValue = users[id].voteValue;
+            //count votes
+            if (data[voteValue]) {
+              data[voteValue].push(users[id].name);
+            } else {
+              data[voteValue] = [users[id].name];
+            }
+          }
+          setResData(data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    return {};
+  }, [pollId]);
+
   const checkResultsStatus = useCallback(() => {
     const pollRef = firebase.database().ref(pollId + "/resultsShown");
     pollRef.on("value", (snapshot) => {
       const resultStatus = snapshot.val();
+      getResults();
+      var ref = firebase.database().ref(pollId + "/users");
+      ref.once("value").then(function (snapshot) {
+        setLoggedCount(snapshot.numChildren());
+      });
       if (resultStatus) {
         setShowResults(resultStatus.resultsShown || false);
       }
     });
-  }, [pollId]);
+  }, [getResults, pollId]);
 
   const checkIfReset = useCallback(() => {
     const pollRef = firebase.database().ref(pollId + "/resetPolls");
     pollRef.on("value", (snapshot) => {
       const resetPolls = snapshot.val();
-      console.log("resetPolls", resetPolls);
       if (resetPolls) {
         if (resetPolls.reset) {
           setSelectedPoll("");
+          const resetRef = firebase.database().ref(pollId + "/resetPolls");
+          resetRef.set({ reset: false });
+          const statusRef = firebase.database().ref(pollId + "/pollstatus");
+          statusRef.set({ pollStatus: false });
         }
       }
     });
@@ -76,7 +119,15 @@ function PollResults({ setIsInvalidRoom }) {
     fetchCurrentPollData();
     checkResultsStatus();
     checkIfReset();
-  }, [checkIfReset, checkResultsStatus, fetchCurrentPollData]);
+    setResData(resultsData);
+  }, [
+    checkIfReset,
+    checkResultsStatus,
+    fetchCurrentPollData,
+    pollId,
+    resultsData,
+    setResData,
+  ]);
 
   if (!pollData) {
     setIsInvalidRoom();
@@ -90,10 +141,78 @@ function PollResults({ setIsInvalidRoom }) {
           <div>Room Name</div>
           <div>{pollData.roomName}</div>
         </div>
+        <div className={styles.pollId}>
+          <div>Room ID</div>
+          <div className={styles.idStyle}>{pollId}</div>
+        </div>
+        <div className={styles.navBtns}>
+          <img
+            src={HomeImg}
+            alt="Home"
+            onClick={() => {
+              if (window.confirm("Go home and end poll?")) {
+                history.replace("/");
+                const loggedId = window.localStorage.getItem("loggedId");
+                if (loggedId) {
+                  const currentRef = firebase
+                    .database()
+                    .ref(pollId + "/users")
+                    .child(loggedId);
+                  currentRef.remove(
+                    window.localStorage.removeItem("loggedUser")
+                  );
+                }
+              }
+            }}
+          />
+          <Button
+            size="small"
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              window.opener = null;
+              window.open("about:blank", "_self");
+              setTimeout(() => {
+                window.close();
+              }, 1000);
+            }}
+          >
+            Leave
+          </Button>
+        </div>
       </div>
       {showResults ? (
         <div className={styles.resultsData}>
-          <Line percent="70" strokeWidth="2" strokeColor={setBg()} />
+          {Object.keys(resData).map((key) => {
+            return (
+              <div className={styles.resWrapper}>
+                <CircularProgressbarWithChildren
+                  value={(resData[key].length / loggedCount) * 100}
+                  // text={`${66}%`}
+                  styles={buildStyles({
+                    textSize: "16px",
+                    // How long animation takes to go from one percentage to another, in seconds
+                    pathTransitionDuration: 1,
+                    // Colors
+                    pathColor: setBg(),
+                    textColor: setBg(),
+                    trailColor: "#d6d6d6",
+                    backgroundColor: "#3e98c7",
+                    margin: "10px",
+                  })}
+                >
+                  <div>
+                    <div className={styles.voteValue}>{key}</div>
+                    <div className={styles.voteCount}>
+                      {console.log(resData[key].length, loggedCount)}
+                      {resData[key].length}{" "}
+                      {resData[key].length > 1 ? "Votes" : "Vote"}
+                    </div>
+                  </div>
+                </CircularProgressbarWithChildren>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div className={styles.resultsDiv}>
