@@ -184,7 +184,7 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
       {showResults ? (
         <div className={styles.resultsData}>
           {Object.keys(resData).map((key) => {
-            return key.length ? (
+            return resData[key].length && key.length ? (
               <div
                 className={styles.resWrapper}
                 style={{
