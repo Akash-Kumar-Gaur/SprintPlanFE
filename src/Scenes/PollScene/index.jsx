@@ -75,14 +75,12 @@ function PollScene() {
   }, [checkResultsStatus, getLoggedUsers, getPollingStaus]);
 
   const onShowResults = () => {
-    alert(allowShow);
     setShowResults(true);
     const pollRef = firebase.database().ref(pollId + "/resultsShown");
     pollRef.set({ resultsShown: true });
   };
 
   const onPollRestart = () => {
-    alert(allowShow + "rs");
     setShowResults(false);
     const pollRef = firebase.database().ref(pollId + "/resultsShown");
     pollRef.set({ resultsShown: false });

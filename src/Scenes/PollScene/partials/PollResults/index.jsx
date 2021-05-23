@@ -16,7 +16,6 @@ function PollResults({ setIsInvalidRoom }) {
   const [pollData, setPollData] = useState({});
   const [selectedPoll, setSelectedPoll] = useState("");
   const [showResults, setShowResults] = useState(false);
-  const [resetPoll, setResetPoll] = useState(false);
   const { pollId } = useParams();
 
   function setHasVoted(pollValue) {
@@ -54,9 +53,8 @@ function PollResults({ setIsInvalidRoom }) {
     const pollRef = firebase.database().ref(pollId + "/resultsShown");
     pollRef.on("value", (snapshot) => {
       const resultStatus = snapshot.val();
-      console.log("resultStatus", resultStatus);
       if (resultStatus) {
-        setShowResults(resultStatus.reset || false);
+        setShowResults(resultStatus.resultsShown || false);
       }
     });
   }, [pollId]);
@@ -67,7 +65,9 @@ function PollResults({ setIsInvalidRoom }) {
       const resetPolls = snapshot.val();
       console.log("resetPolls", resetPolls);
       if (resetPolls) {
-        setResetPoll(resetPolls.resultsShown || false);
+        if (resetPolls.reset) {
+          setSelectedPoll("");
+        }
       }
     });
   }, [pollId]);
@@ -76,7 +76,7 @@ function PollResults({ setIsInvalidRoom }) {
     fetchCurrentPollData();
     checkResultsStatus();
     checkIfReset();
-  }, [checkResultsStatus, fetchCurrentPollData, resetPoll]);
+  }, [checkIfReset, checkResultsStatus, fetchCurrentPollData]);
 
   if (!pollData) {
     setIsInvalidRoom();

@@ -38,7 +38,9 @@ function NameInput({ close }) {
           const pollRef = firebase.database().ref(pollId + "/pollstatus");
           pollRef.update({ pollStatus: false });
           const resRef = firebase.database().ref(pollId + "/resultsShown");
-          resRef.update({ pollStatus: false });
+          resRef.update({ resultsShown: false });
+          const resetRef = firebase.database().ref(pollId + "/resetPolls");
+          resetRef.set({ reset: false });
           setInProcess(false);
           close();
         }
