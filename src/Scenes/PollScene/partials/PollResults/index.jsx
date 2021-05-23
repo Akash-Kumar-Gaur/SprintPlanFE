@@ -184,7 +184,7 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
       {showResults ? (
         <div className={styles.resultsData}>
           {Object.keys(resData).map((key) => {
-            return (
+            return key.length ? (
               <div
                 className={styles.resWrapper}
                 style={{
@@ -215,7 +215,7 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
                   </div>
                 </CircularProgressbarWithChildren>
               </div>
-            );
+            ) : null;
           })}
         </div>
       ) : (
