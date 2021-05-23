@@ -1,30 +1,33 @@
 import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import { enterUser } from "../../../../utils/database.utils";
 import firebase from "firebase";
 
-function NameInput({ close, isInvalidRoom }) {
+function NameInput({ close }) {
   const [name, setName] = useState("");
   let { pollId } = useParams();
-  let history = useHistory();
+  const [inProcess, setInProcess] = useState(false);
+  const [nameError, setNameError] = useState(false);
 
   const pushUser = () => {
-    const userRef = firebase.database().ref(pollId);
+    const userRef = firebase.database().ref(pollId + "/users");
     userRef
       .get()
       .then((snapshot) => {
         if (snapshot.exists()) {
+          console.log(snapshot.val());
           const users = snapshot.val();
           for (let id in users) {
             if (users[id].name === name) {
-              alert("User with same name already in room!!");
+              setNameError(true);
               setName("");
-              break;
+              setInProcess(false);
             } else {
               window.localStorage.setItem("loggedUser", name);
               enterUser(name, pollId);
+              setInProcess(false);
               close();
             }
           }
@@ -32,6 +35,11 @@ function NameInput({ close, isInvalidRoom }) {
           console.log("No data available");
           window.localStorage.setItem("loggedUser", name);
           enterUser(name, pollId);
+          const pollRef = firebase.database().ref(pollId + "/pollstatus");
+          pollRef.update({ pollStatus: false });
+          const resRef = firebase.database().ref(pollId + "/resultsShown");
+          resRef.update({ pollStatus: false });
+          setInProcess(false);
           close();
         }
       })
@@ -41,51 +49,74 @@ function NameInput({ close, isInvalidRoom }) {
   };
 
   const handleInput = (e) => {
+    setNameError(false);
     setName(e.target.value);
   };
 
+  const handleEnter = (e) => {
+    if (e.keyCode === 13) {
+      setInProcess(true);
+      pushUser();
+    }
+  };
+
   return (
-    <form noValidate autoComplete="off" onSubmit={pushUser}>
-      <div
+    <div
+      style={{
+        textAlign: "center",
+        padding: "20px",
+      }}
+    >
+      <h3>Please enter your name</h3>
+      <TextField
+        id="outlined-basic"
+        variant="outlined"
+        onKeyUp={(e) => handleEnter(e)}
+        onChange={(e) => handleInput(e)}
+        fullWidth
+        required
+        value={name}
+        autoComplete="off"
+        error={nameError}
         style={{
-          textAlign: "center",
-          padding: "20px",
+          position: "relative",
         }}
-      >
-        <h3>
-          {isInvalidRoom ? "Invalid Room ID !!!" : "Please enter your name"}
-        </h3>
-        {!isInvalidRoom ? (
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            onChange={(e) => handleInput(e)}
-            fullWidth
-            required
-            value={name}
-          />
-        ) : null}
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={!name.length && !isInvalidRoom}
-          onClick={() => {
-            if (isInvalidRoom) {
-              history.replace("/");
-            } else {
-              if (name.length) {
-                pushUser();
-              }
-            }
-          }}
+      />
+      {nameError ? (
+        <div
           style={{
-            marginTop: "30px",
+            marginTop: "6px",
+            fontSize: "12px",
+            color: "red",
+            position: "absolute",
           }}
         >
-          {isInvalidRoom ? "Go back Home" : "Start Game"}
-        </Button>
-      </div>
-    </form>
+          User with same name already in room!!
+        </div>
+      ) : null}
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        disabled={!name.length || inProcess || nameError}
+        onSubmit={() => {
+          if (name.length) {
+            pushUser();
+          }
+        }}
+        onClick={() => {
+          if (name.length) {
+            setInProcess();
+            pushUser();
+          }
+        }}
+        style={{
+          marginTop: "30px",
+        }}
+      >
+        {inProcess ? "Joining" : "Start Game"}
+      </Button>
+    </div>
   );
 }
 

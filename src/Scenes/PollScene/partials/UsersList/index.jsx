@@ -6,20 +6,23 @@ import { getUniqueListBy } from "../../../../utils/database.utils";
 function UsersList({ users }) {
   const filterUsers = getUniqueListBy(users, "name");
   return (
-    <>
-      {filterUsers.map((user, key) => {
-        return (
-          <div className={styles.cardWrapper} key={key}>
-            <div className={styles.userCard}>
-              {user.voted && (
-                <img src={votedImg} alt="voted" className={styles.votedImg} />
-              )}
+    <div className={styles.usersDiv}>
+      <div className={styles.joined}>Joined Users:</div>
+      <div className={styles.wrapperBox}>
+        {filterUsers.map((user, key) => {
+          return (
+            <div className={styles.cardWrapper} key={key}>
+              <div className={styles.userCard}>
+                {user.voted && (
+                  <img src={votedImg} alt="voted" className={styles.votedImg} />
+                )}
+              </div>
+              <div className={styles.userName}>{user.name}</div>
             </div>
-            <div>{user.name}</div>
-          </div>
-        );
-      })}
-    </>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

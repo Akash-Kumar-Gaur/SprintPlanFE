@@ -1,7 +1,7 @@
 import firebase from "firebase";
 
 export const enterUser = (name, pollId) => {
-  const userRef = firebase.database().ref(pollId);
+  const userRef = firebase.database().ref(pollId + "/users");
   const user = {
     name,
     voted: false,
