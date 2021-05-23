@@ -7,18 +7,15 @@ export const setPollStatus = (pollId) => {
     .then((snapshot) => {
       if (snapshot.exists()) {
         const users = snapshot.val();
-        const tempUsers = [];
         for (let id in users) {
           if (users[id].voted) {
             const pollRef = firebase.database().ref(pollId + "/pollstatus");
             pollRef.update({ pollStatus: true });
             break;
           } else {
-            console.log("nahi");
             const pollRef = firebase.database().ref(pollId + "/pollstatus");
             pollRef.update({ pollStatus: false });
           }
-          tempUsers.push({ id, ...users[id] });
         }
       } else {
         console.log("No data available nhi");

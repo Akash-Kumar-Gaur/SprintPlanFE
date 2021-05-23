@@ -6,7 +6,7 @@ import firebase from "firebase";
 import { useParams } from "react-router";
 
 function UsersList({ users }) {
-  const filterUsers = getUniqueListBy(users, "name");
+  const filterUsers = users;
   const [showRes, setShowRes] = useState(false);
 
   const { pollId } = useParams();
@@ -37,7 +37,7 @@ function UsersList({ users }) {
       <div className={styles.joined}>Joined Users:</div>
       <div className={styles.wrapperBox}>
         {filterUsers.map((user, key) => {
-          return (
+          return user.name ? (
             <div className={styles.cardWrapper} key={key}>
               <div className={styles.userCard}>
                 {user.voted ? (
@@ -54,7 +54,7 @@ function UsersList({ users }) {
               </div>
               <div className={styles.userName}>{user.name}</div>
             </div>
-          );
+          ) : null;
         })}
       </div>
     </div>

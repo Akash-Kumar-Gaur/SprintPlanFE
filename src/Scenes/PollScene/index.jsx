@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Popup from "reactjs-popup";
 import NameInput from "./partials/NameInput";
 import firebase from "firebase";
 import styles from "./index.module.scss";
 import PollResults from "./partials/PollResults";
 import UsersList from "./partials/UsersList";
-import Button from "@material-ui/core/Button";
 import { restartPoll, setPollStatus } from "./firebaseCalls.utils";
 import "reactjs-popup/dist/index.css";
 
@@ -17,8 +16,6 @@ function PollScene() {
   const [showResults, setShowResults] = useState(false);
   const [allowShow, setAllowShow] = useState(false);
   const [resultsData, setResultsData] = useState({});
-
-  let history = useHistory();
 
   const getLoggedUsers = useCallback(() => {
     const userRef = firebase.database().ref(pollId + "/users");

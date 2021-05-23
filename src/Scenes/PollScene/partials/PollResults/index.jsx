@@ -185,7 +185,12 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
         <div className={styles.resultsData}>
           {Object.keys(resData).map((key) => {
             return (
-              <div className={styles.resWrapper}>
+              <div
+                className={styles.resWrapper}
+                style={{
+                  width: `${150 + resData[key].length * 50}px`,
+                }}
+              >
                 <CircularProgressbarWithChildren
                   value={(resData[key].length / loggedCount) * 100}
                   // text={`${66}%`}
@@ -204,7 +209,6 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
                   <div>
                     <div className={styles.voteValue}>{key}</div>
                     <div className={styles.voteCount}>
-                      {console.log(resData[key].length, loggedCount)}
                       {resData[key].length}{" "}
                       {resData[key].length > 1 ? "Votes" : "Vote"}
                     </div>

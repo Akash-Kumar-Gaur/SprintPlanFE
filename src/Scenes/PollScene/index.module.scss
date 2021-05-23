@@ -37,7 +37,7 @@
 .resultsWrapper {
   position: relative;
   width: 100%;
-  padding: 20px;
+  margin: 20px;
   .cardHeader {
     display: flex;
     justify-content: space-between;
@@ -221,7 +221,7 @@
 }
 
 .showResultsBtn {
-  background: #12cae4;
+  background: #ffdd00;
   padding: 15px 20px;
   color: #fff;
   border-radius: 25px;
@@ -238,17 +238,17 @@
 
 .footerBtns {
   position: absolute;
-  bottom: 50px;
+  top: 60vh;
 }
 
 .resultsData {
-  min-width: 300px;
+  // min-width: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   height: 80%;
-  max-width: 50%;
+  max-width: 90vw;
 }
 
 .voteValue {
@@ -267,7 +267,6 @@
 }
 
 .resWrapper {
-  width: 200px;
   height: 200px;
   margin: 25px;
 }

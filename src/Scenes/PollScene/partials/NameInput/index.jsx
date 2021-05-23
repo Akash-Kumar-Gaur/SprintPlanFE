@@ -17,7 +17,7 @@ function NameInput({ close }) {
       .get()
       .then((snapshot) => {
         if (snapshot.exists()) {
-          console.log(snapshot.val());
+          // console.log(snapshot.val());
           const users = snapshot.val();
           for (let id in users) {
             if (users[id].name === name) {
@@ -29,10 +29,10 @@ function NameInput({ close }) {
               enterUser(name, pollId);
               setInProcess(false);
               close();
+              break;
             }
           }
         } else {
-          console.log("No data available");
           window.localStorage.setItem("loggedUser", name);
           enterUser(name, pollId);
           const pollRef = firebase.database().ref(pollId + "/pollstatus");

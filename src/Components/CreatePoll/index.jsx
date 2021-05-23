@@ -101,7 +101,7 @@ function CreatePollForm({ close }) {
           </FormControl>
         </div>
         <div className={styles.formField}>
-          <FormControl variant="outlined" fullWidth>
+          {/* <FormControl variant="outlined" fullWidth>
             <InputLabel id="demo-customized-select-label">
               Who can show cards?
             </InputLabel>
@@ -116,7 +116,7 @@ function CreatePollForm({ close }) {
               <MenuItem value={false}>Only Me</MenuItem>
               <MenuItem value={true}>Everyone</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
 
           <div className={styles.playBtn}>
             <Button
