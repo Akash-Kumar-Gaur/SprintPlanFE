@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styles from "../../index.module.scss";
 import votedImg from "../../../../Assets/Images/voted.png";
-import { getUniqueListBy } from "../../../../utils/database.utils";
 import firebase from "firebase";
 import { useParams } from "react-router";
 
