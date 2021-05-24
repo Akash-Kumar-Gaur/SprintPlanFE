@@ -20,9 +20,9 @@ function CreatePollForm({ close }) {
     setSeries(event.target.value);
   };
 
-  const handleAccesSelect = (event) => {
-    setAllCanSee(event.target.value);
-  };
+  // const handleAccesSelect = (event) => {
+  //   setAllCanSee(event.target.value);
+  // };
 
   const SERIES = [
     ["0", "1", "2", "3", "5", "8", "13", "21"],
