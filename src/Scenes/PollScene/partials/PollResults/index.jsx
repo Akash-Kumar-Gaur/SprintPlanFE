@@ -188,7 +188,7 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
               <div
                 className={styles.resWrapper}
                 style={{
-                  width: `${150 + resData[key].length * 50}px`,
+                  width: `${150 + resData[key].length}px`,
                 }}
               >
                 <CircularProgressbarWithChildren
