@@ -67,12 +67,14 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
           const users = snapshot.val();
           const data = {};
           for (let id in users) {
-            const voteValue = users[id].voteValue;
-            //count votes
-            if (data[voteValue]) {
-              data[voteValue].push(users[id].name);
-            } else {
-              data[voteValue] = [users[id].name];
+            if (users[id].voted) {
+              const voteValue = users[id].voteValue;
+              //count votes
+              if (data[voteValue]) {
+                data[voteValue].push(users[id].name);
+              } else {
+                data[voteValue] = [users[id].name];
+              }
             }
           }
           setResData(data);
