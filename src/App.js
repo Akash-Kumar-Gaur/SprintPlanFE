@@ -20,15 +20,6 @@ function App() {
   }
   firebase.analytics();
 
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "https://plansprint.herokuapp.com/testBE",
-    }).then((res) => {
-      console.log(res.data);
-    });
-  });
-
   return (
     <div className="App">
       <ToastProvider placement="bottom-right">
