@@ -13,19 +13,19 @@ function NameInput({ close }) {
 
   const pushUser = () => {
     const userRef = firebase.database().ref(pollId + "/users");
+    window.localStorage.setItem("loggedUserName", name);
     userRef
       .get()
       .then((snapshot) => {
         if (snapshot.exists()) {
-          // console.log(snapshot.val());
           const users = snapshot.val();
           for (let id in users) {
             if (users[id].name === name) {
               setNameError(true);
               setName("");
               setInProcess(false);
+              window.localStorage.removeItem("loggedUserName");
             } else {
-              window.localStorage.setItem("loggedUser", name);
               enterUser(name, pollId);
               setInProcess(false);
               close();
@@ -33,7 +33,6 @@ function NameInput({ close }) {
             }
           }
         } else {
-          window.localStorage.setItem("loggedUser", name);
           enterUser(name, pollId);
           const pollRef = firebase.database().ref(pollId + "/pollstatus");
           pollRef.update({ pollStatus: false });

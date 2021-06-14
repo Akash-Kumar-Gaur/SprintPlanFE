@@ -23,7 +23,7 @@ function PollScene() {
       const users = snapshot.val();
       const tempUsers = [];
       for (let id in users) {
-        if (users[id].name === window.localStorage.getItem("loggedUser")) {
+        if (users[id].name === window.localStorage.getItem("loggedUserName")) {
           window.localStorage.setItem("loggedId", id);
         }
         tempUsers.push({ id, ...users[id] });
@@ -77,7 +77,6 @@ function PollScene() {
       .get()
       .then((snapshot) => {
         if (snapshot.exists()) {
-          console.log("yhnb ", snapshot.val());
           const users = snapshot.val();
           const data = {};
           for (let id in users) {
@@ -88,7 +87,6 @@ function PollScene() {
             } else {
               data[voteValue] = [users[id].name];
             }
-            console.log("results", data);
             setResultsData(data);
           }
         }

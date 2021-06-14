@@ -161,7 +161,7 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
                     .ref(pollId + "/users")
                     .child(loggedId);
                   currentRef.remove(
-                    window.localStorage.removeItem("loggedUser")
+                    window.localStorage.removeItem("loggedUserName")
                   );
                 }
               }

@@ -65,6 +65,7 @@ function setNotVoted(pollId, id) {
   userRef.update(
     {
       voted: false,
+      voteValue: "",
     },
     () => {
       setPollStatus(pollId);

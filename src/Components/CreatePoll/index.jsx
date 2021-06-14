@@ -13,7 +13,7 @@ import { useToasts } from "react-toast-notifications";
 function CreatePollForm({ close }) {
   const [roomName, setRoomName] = useState("");
   const [series, setSeries] = useState([]);
-  const [allCanSee, setAllCanSee] = useState(false);
+  // const [allCanSee, setAllCanSee] = useState(false);
   const [creatingPoll, setCreatingPoll] = useState(false);
 
   const handleSeriesSelect = (event) => {
@@ -44,13 +44,13 @@ function CreatePollForm({ close }) {
     axios({
       method: "post",
       url: "https://plansprint.herokuapp.com/polls",
-      data: { roomName, series: createSeries, allCanSee },
+      data: { roomName, series: createSeries },
     })
       .then((res) => {
         const response = res.data;
         history.push(`/pollRoom/${response.roomId}`);
         setCreatingPoll(false);
-        addToast("Poll created!!", {
+        addToast("Poll created !!", {
           autoDismiss: 2000,
           autoDismissTimeout: 2000,
           appearance: "success",

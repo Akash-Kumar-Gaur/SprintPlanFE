@@ -136,16 +136,17 @@
 }
 
 .userCard {
-  background: #12cae4;
+  background: #121b54;
   height: 70px;
-  width: 50px;
+  width: 70px;
   margin: 0 20px;
-  border-radius: 0.4rem;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  font-size: 25px;
   margin-bottom: 5px;
+  color: #fff;
 }
 .userName {
   font-family: "Spartan", sans-serif;
@@ -154,7 +155,7 @@
 }
 
 .votedImg {
-  width: 30px;
+  width: 40px;
 }
 
 .resultsDiv {

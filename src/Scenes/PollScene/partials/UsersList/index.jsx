@@ -51,7 +51,11 @@ function UsersList({ users }) {
                   )
                 ) : null}
               </div>
-              <div className={styles.userName}>{user.name}</div>
+              <div className={styles.userName}>
+                {user.name === window.localStorage.getItem("loggedUserName")
+                  ? `${user.name}(Me)`
+                  : user.name}
+              </div>
             </div>
           ) : null;
         })}
