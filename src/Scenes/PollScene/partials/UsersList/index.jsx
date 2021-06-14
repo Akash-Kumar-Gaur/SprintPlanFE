@@ -3,6 +3,8 @@ import styles from "../../index.module.scss";
 import votedImg from "../../../../Assets/Images/voted.png";
 import firebase from "firebase";
 import { useParams } from "react-router";
+import maleImg from "../../../../Assets/Images/male.png";
+import femaleImg from "../../../../Assets/Images/female.png";
 
 function UsersList({ users }) {
   const filterUsers = users;
@@ -39,6 +41,13 @@ function UsersList({ users }) {
           return user.name ? (
             <div className={styles.cardWrapper} key={key}>
               <div className={styles.userCard}>
+                {!showRes ? (
+                  <img
+                    src={user.gender === "male" ? maleImg : femaleImg}
+                    alt="user"
+                    className={styles.genderImg}
+                  />
+                ) : null}
                 {user.voted ? (
                   !showRes ? (
                     <img

@@ -147,7 +147,14 @@
   font-size: 25px;
   margin-bottom: 5px;
   color: #fff;
+  position: relative;
 }
+
+.genderImg {
+  height: 70px;
+  width: 70px;
+}
+
 .userName {
   font-family: "Spartan", sans-serif;
   opacity: 0.8;
@@ -155,7 +162,10 @@
 }
 
 .votedImg {
-  width: 40px;
+  width: 30px;
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
 }
 
 .resultsDiv {
