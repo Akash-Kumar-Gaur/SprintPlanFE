@@ -4,8 +4,6 @@ import HomeScene from "./Scenes/HomeScene";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PollScene from "./Scenes/PollScene";
 import { ToastProvider } from "react-toast-notifications";
-import { useEffect } from "react";
-import axios from "axios";
 
 function App() {
   var firebaseConfig = {
@@ -25,15 +23,6 @@ function App() {
     firebase.app(); // if already initialized, use that one
   }
   firebase.analytics();
-
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "https://plansprint.herokuapp.com/testBE",
-    }).then((res) => {
-      console.log(res.data);
-    });
-  });
 
   return (
     <div className="App">
