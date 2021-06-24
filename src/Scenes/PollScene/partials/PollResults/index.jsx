@@ -47,7 +47,7 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
 
   const fetchCurrentPollData = useCallback(() => {
     axios
-      .get(`https://plansprintbe.herokuapp.com/poll/${pollId}`)
+      .get(`https://sprintplanbe.herokuapp.com/poll/${pollId}`)
       .then((res) => {
         const response = res.data;
         setPollData(response);
