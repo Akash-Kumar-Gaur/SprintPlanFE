@@ -43,7 +43,7 @@ function CreatePollForm({ close }) {
     const createSeries = series.split(",");
     axios({
       method: "post",
-      url: "https://plansprint.herokuapp.com/polls",
+      url: "https://sprintplanbe.herokuapp.com/polls",
       data: { roomName, series: createSeries },
     })
       .then((res) => {
