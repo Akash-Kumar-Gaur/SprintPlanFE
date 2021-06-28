@@ -17,8 +17,11 @@ async function getUserGenderV2(name, pollId) {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log("data", data.gender);
-      enterUserNow(name, pollId, data.gender);
+      if (data.status) {
+        enterUserNow(name, pollId, data.gender);
+      } else {
+        enterUserNow(name, pollId, "none");
+      }
     });
 }
 

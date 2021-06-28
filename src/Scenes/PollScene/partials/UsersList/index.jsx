@@ -5,6 +5,7 @@ import firebase from "firebase";
 import { useParams } from "react-router";
 import maleImg from "../../../../Assets/Images/male.png";
 import femaleImg from "../../../../Assets/Images/female.png";
+import spy from "../../../../Assets/Images/spy.png";
 
 function UsersList({ users }) {
   const filterUsers = users;
@@ -43,7 +44,13 @@ function UsersList({ users }) {
               <div className={styles.userCard}>
                 {!showRes ? (
                   <img
-                    src={user.gender === "male" ? maleImg : femaleImg}
+                    src={
+                      user.gender === "male"
+                        ? maleImg
+                        : user.gender === "female"
+                        ? femaleImg
+                        : spy
+                    }
                     alt="user"
                     className={styles.genderImg}
                   />

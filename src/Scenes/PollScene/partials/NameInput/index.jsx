@@ -13,6 +13,7 @@ function NameInput({ close }) {
 
   const pushUser = () => {
     const userRef = firebase.database().ref(pollId + "/users");
+    console.log("userRef", userRef);
     window.localStorage.setItem("loggedUserName", name);
     userRef
       .get()
