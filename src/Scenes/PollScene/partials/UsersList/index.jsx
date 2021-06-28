@@ -42,7 +42,7 @@ function UsersList({ users }) {
           return user.name ? (
             <div className={styles.cardWrapper} key={key}>
               <div className={styles.userCard}>
-                {!showRes ? (
+                {/* {!showRes ? (
                   <img
                     src={
                       user.gender === "male"
@@ -54,7 +54,7 @@ function UsersList({ users }) {
                     alt="user"
                     className={styles.genderImg}
                   />
-                ) : null}
+                ) : null} */}
                 {user.voted ? (
                   !showRes ? (
                     <img

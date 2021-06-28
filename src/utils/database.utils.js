@@ -26,7 +26,8 @@ async function getUserGenderV2(name, pollId) {
 }
 
 export const enterUser = (name, pollId) => {
-  getUserGenderV2(name, pollId);
+  // getUserGenderV2(name, pollId);
+  enterUserNow(name, pollId, "none");
 };
 
 export const getCurrentUser = () => firebase.auth().currentUser;
