@@ -13,10 +13,15 @@ import "react-circular-progressbar/dist/styles.css";
 import Button from "@material-ui/core/Button";
 import HomeImg from "../../../../Assets/Images/home.png";
 
-const setBg = () => {
-  const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-  return `#${randomColor}`;
-};
+const resColorArr = [
+  "#FCBA04",
+  "#F25C54",
+  "#FFE347",
+  "#2CDA9D",
+  "#84E6F8",
+  "#FB5012",
+  "#0E7C7B",
+];
 
 function PollResults({ setIsInvalidRoom, resultsData }) {
   const [pollData, setPollData] = useState({});
@@ -63,7 +68,6 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
       .get()
       .then((snapshot) => {
         if (snapshot.exists()) {
-          console.log("yhnb ", snapshot.val());
           const users = snapshot.val();
           const data = {};
           for (let id in users) {
@@ -184,7 +188,9 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
         </div>
       </div>
       {showResults ? (
-        <div className={styles.resultsData}>
+        <div
+          className={`${styles.resultsData} animate__animated animate__fadeIn`}
+        >
           {Object.keys(resData).map((key) => {
             return resData[key].length && key.length ? (
               <div
@@ -201,8 +207,8 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
                     // How long animation takes to go from one percentage to another, in seconds
                     pathTransitionDuration: 1,
                     // Colors
-                    pathColor: setBg(),
-                    textColor: setBg(),
+                    pathColor: resColorArr[key],
+                    textColor: resColorArr[key],
                     trailColor: "#d6d6d6",
                     backgroundColor: "#3e98c7",
                     margin: "10px",

@@ -6,7 +6,7 @@ const enterUserNow = (name, pollId, gender) => {
     name,
     voted: false,
     voteValue: "",
-    gender: gender,
+    // gender: gender,
   };
   userRef.push(user);
 };

@@ -159,13 +159,11 @@
   font-family: "Spartan", sans-serif;
   opacity: 0.8;
   margin-top: 5px;
+  text-transform: capitalize;
 }
 
 .votedImg {
-  width: 30px;
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
+  width: 70%;
 }
 
 .resultsDiv {

@@ -59,7 +59,11 @@ function CreatePollForm({ close }) {
       })
       .catch((err) => {
         console.log("createError", err);
-        alert("Something went wrong!!!");
+        addToast("Something went wrong!!!", {
+          autoDismiss: 2000,
+          autoDismissTimeout: 2000,
+          appearance: "error",
+        });
         setCreatingPoll(false);
         // close();
       });
