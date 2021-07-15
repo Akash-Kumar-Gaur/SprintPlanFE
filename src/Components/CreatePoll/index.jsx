@@ -96,10 +96,14 @@ function CreatePollForm({ close }) {
               required
             >
               <MenuItem value={`${SERIES[0]}`}>
-                {SERIES[0].map((entry) => `${entry}, `)}
+                {SERIES[0].map((entry, key) =>
+                  key < SERIES[0].length - 1 ? `${entry}, ` : entry
+                )}
               </MenuItem>
               <MenuItem value={`${SERIES[1]}`}>
-                {SERIES[1].map((entry) => `${entry}, `)}
+                {SERIES[1].map((entry, key) =>
+                  key < SERIES[0].length - 1 ? `${entry}, ` : entry
+                )}
               </MenuItem>
             </Select>
           </FormControl>
