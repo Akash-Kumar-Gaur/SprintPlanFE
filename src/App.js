@@ -4,6 +4,7 @@ import HomeScene from "./Scenes/HomeScene";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PollScene from "./Scenes/PollScene";
 import { ToastProvider } from "react-toast-notifications";
+import { useEffect } from "react";
 
 function App() {
   var firebaseConfig = {
@@ -23,6 +24,12 @@ function App() {
     firebase.app(); // if already initialized, use that one
   }
   firebase.analytics();
+
+  useEffect(() => {
+    fetch("https://sprintplanbe.herokuapp.com/").then((res) =>
+      console.warn(res)
+    );
+  });
 
   return (
     <div className="App">

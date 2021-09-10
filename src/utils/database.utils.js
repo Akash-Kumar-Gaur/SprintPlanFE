@@ -1,12 +1,12 @@
 import firebase from "firebase";
 
-const enterUserNow = (name, pollId, gender) => {
+const enterUserNow = (name, pollId, isSpectator) => {
   const userRef = firebase.database().ref(pollId + "/users");
   const user = {
     name,
     voted: false,
     voteValue: "",
-    // gender: gender,
+    isSpectator,
   };
   userRef.push(user);
 };
@@ -25,9 +25,9 @@ async function getUserGenderV2(name, pollId) {
     });
 }
 
-export const enterUser = (name, pollId) => {
+export const enterUser = (name, pollId, isSpectator = false) => {
   // getUserGenderV2(name, pollId);
-  enterUserNow(name, pollId, "none");
+  enterUserNow(name, pollId, isSpectator);
 };
 
 export const getCurrentUser = () => firebase.auth().currentUser;

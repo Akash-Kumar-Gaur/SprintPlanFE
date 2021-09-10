@@ -133,6 +133,8 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+  flex: 0.8;
+  justify-content: space-between;
 }
 
 .userCard {

@@ -140,6 +140,8 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
     return null;
   }
 
+  const isSpectator = window.localStorage.getItem("isSpectator");
+
   return (
     <div className={styles.resultsWrapper}>
       <div className={styles.cardHeader}>
@@ -165,7 +167,8 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
                     .ref(pollId + "/users")
                     .child(loggedId);
                   currentRef.remove(
-                    window.localStorage.removeItem("loggedUserName")
+                    window.localStorage.removeItem("loggedUserName"),
+                    window.localStorage.removeItem("isSpectator")
                   );
                 }
               }
@@ -236,6 +239,10 @@ function PollResults({ setIsInvalidRoom, resultsData }) {
                 return (
                   <div
                     key={key}
+                    style={{
+                      pointerEvents: isSpectator ? "none" : "all",
+                      cursor: isSpectator ? "not-allowed" : "pointer",
+                    }}
                     className={`${styles.entryCard} ${
                       selectedPoll === entry.entryValue
                         ? styles.selectedPoll

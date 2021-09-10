@@ -25,6 +25,9 @@ function PollScene() {
       for (let id in users) {
         if (users[id].name === window.localStorage.getItem("loggedUserName")) {
           window.localStorage.setItem("loggedId", id);
+          if (users[id].isSpectator) {
+            window.localStorage.setItem("isSpectator", true);
+          }
         }
         tempUsers.push({ id, ...users[id] });
       }
@@ -37,7 +40,10 @@ function PollScene() {
           .child(loggedId);
         currentRef
           .onDisconnect()
-          .remove(window.localStorage.removeItem("loggedUser"))
+          .remove(() => {
+            window.localStorage.removeItem("loggedUser");
+            window.localStorage.removeItem("isSpectator");
+          })
           .then(() => {
             setPollStatus(pollId);
           });

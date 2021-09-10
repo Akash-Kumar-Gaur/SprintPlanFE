@@ -4,12 +4,15 @@ import Button from "@material-ui/core/Button";
 import { useParams } from "react-router";
 import { enterUser } from "../../../../utils/database.utils";
 import firebase from "firebase";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 function NameInput({ close }) {
   const [name, setName] = useState("");
   let { pollId } = useParams();
   const [inProcess, setInProcess] = useState(false);
   const [nameError, setNameError] = useState(false);
+  const [isSpectator, setIsSpectator] = useState(false);
 
   const pushUser = () => {
     const userRef = firebase.database().ref(pollId + "/users");
@@ -26,14 +29,14 @@ function NameInput({ close }) {
               setInProcess(false);
               window.localStorage.removeItem("loggedUserName");
             } else {
-              enterUser(name, pollId);
+              enterUser(name, pollId, isSpectator);
               setInProcess(false);
               close();
               break;
             }
           }
         } else {
-          enterUser(name, pollId);
+          enterUser(name, pollId, isSpectator);
           const pollRef = firebase.database().ref(pollId + "/pollstatus");
           pollRef.update({ pollStatus: false });
           const resRef = firebase.database().ref(pollId + "/resultsShown");
@@ -95,6 +98,33 @@ function NameInput({ close }) {
           User with same name already in room!!
         </div>
       ) : null}
+      <div
+        style={{
+          width: "auto",
+          marginTop: "10px",
+          userSelect: "none",
+        }}
+      >
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={isSpectator}
+              onChange={() => setIsSpectator(!isSpectator)}
+              name="spectator"
+              color="primary"
+            />
+          }
+          label="Join as Spectator 🕵🏻‍♂️"
+        />
+        <div
+          style={{
+            color: "#828282",
+            fontSize: 12,
+          }}
+        >
+          Spectators can't vote
+        </div>
+      </div>
       <Button
         type="submit"
         variant="contained"
